@@ -72,6 +72,7 @@
     <ClInclude Include="include\DataPersistence\Order.h" />
     <ClInclude Include="include\DataPersistence\SampleRepository.h" />
     <ClInclude Include="include\DataPersistence\OrderRepository.h" />
+    <ClInclude Include="include\DataPersistence\OrderWorkflow.h" />
     <ClInclude Include="include\third_party\nlohmann\json.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +80,7 @@
     <ClCompile Include="src\Order.cpp" />
     <ClCompile Include="src\SampleRepository.cpp" />
     <ClCompile Include="src\OrderRepository.cpp" />
+    <ClCompile Include="src\OrderWorkflow.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

@@ -2,8 +2,12 @@
 #include "third_party/nlohmann/json.hpp"
 
 #include <algorithm>
+#include <chrono>
+#include <ctime>
 #include <filesystem>
 #include <fstream>
+#include <iomanip>
+#include <sstream>
 
 namespace dp {
 
@@ -45,8 +49,41 @@ bool OrderRepository::Add(const Order& order, std::string& errorMessage) {
     return true;
 }
 
+bool OrderRepository::Update(const Order& order) {
+    std::vector<Order> orders = Load();
+    auto it = std::find_if(orders.begin(), orders.end(),
+                            [&](const Order& o) { return o.id == order.id; });
+    if (it == orders.end()) {
+        return false;
+    }
+    *it = order;
+    Save(orders);
+    return true;
+}
+
 std::vector<Order> OrderRepository::GetAll() const {
     return Load();
+}
+
+std::vector<Order> OrderRepository::GetByStatus(OrderStatus status) const {
+    std::vector<Order> result;
+    for (auto& order : Load()) {
+        if (order.status == status) {
+            result.push_back(order);
+        }
+    }
+    return result;
+}
+
+std::string OrderRepository::GenerateOrderNo() const {
+    std::time_t now = std::time(nullptr);
+    std::tm localTime{};
+    localtime_s(&localTime, &now);
+
+    std::ostringstream oss;
+    oss << "ORD-" << std::put_time(&localTime, "%Y%m%d") << "-"
+        << std::setw(4) << std::setfill('0') << (static_cast<int>(Load().size()) + 1);
+    return oss.str();
 }
 
 std::map<OrderStatus, int> OrderRepository::CountByStatus() const {

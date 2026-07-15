@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 #include <vector>
 #include "DataPersistence/Sample.h"
@@ -18,7 +19,13 @@ public:
     // Case-insensitive substring match against sample name.
     std::vector<Sample> FindByName(const std::string& keyword) const;
 
+    std::optional<Sample> FindById(const std::string& id) const;
+
     bool Exists(const std::string& id) const;
+
+    // Adds delta to the sample's stock (delta may be negative). Returns false if not found
+    // or if the resulting stock would be negative.
+    bool AdjustStock(const std::string& id, int delta, std::string& errorMessage);
 
 private:
     std::string m_filePath;

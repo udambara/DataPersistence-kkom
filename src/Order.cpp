@@ -26,19 +26,31 @@ OrderStatus OrderStatusFromString(const std::string& text) {
 void to_json(nlohmann::json& j, const Order& o) {
     j = nlohmann::json{
         {"id", o.id},
+        {"orderNo", o.orderNo},
         {"sampleId", o.sampleId},
         {"customerName", o.customerName},
         {"quantity", o.quantity},
-        {"status", ToString(o.status)}
+        {"status", ToString(o.status)},
+        {"productionStartEpochSec", o.productionStartEpochSec},
+        {"totalProductionSeconds", o.totalProductionSeconds},
+        {"shortageQty", o.shortageQty},
+        {"releasedAtEpochSec", o.releasedAtEpochSec},
+        {"releasedQty", o.releasedQty}
     };
 }
 
 void from_json(const nlohmann::json& j, Order& o) {
     j.at("id").get_to(o.id);
+    o.orderNo = j.value("orderNo", std::string());
     j.at("sampleId").get_to(o.sampleId);
     j.at("customerName").get_to(o.customerName);
     j.at("quantity").get_to(o.quantity);
     o.status = OrderStatusFromString(j.at("status").get<std::string>());
+    o.productionStartEpochSec = j.value("productionStartEpochSec", 0LL);
+    o.totalProductionSeconds = j.value("totalProductionSeconds", 0LL);
+    o.shortageQty = j.value("shortageQty", 0);
+    o.releasedAtEpochSec = j.value("releasedAtEpochSec", 0LL);
+    o.releasedQty = j.value("releasedQty", 0);
 }
 
 }

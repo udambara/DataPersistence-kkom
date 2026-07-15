@@ -72,10 +72,37 @@ std::vector<Sample> SampleRepository::FindByName(const std::string& keyword) con
     return result;
 }
 
+std::optional<Sample> SampleRepository::FindById(const std::string& id) const {
+    std::vector<Sample> samples = Load();
+    auto it = std::find_if(samples.begin(), samples.end(),
+                            [&](const Sample& s) { return s.id == id; });
+    if (it == samples.end()) {
+        return std::nullopt;
+    }
+    return *it;
+}
+
 bool SampleRepository::Exists(const std::string& id) const {
     std::vector<Sample> samples = Load();
     return std::any_of(samples.begin(), samples.end(),
                         [&](const Sample& s) { return s.id == id; });
+}
+
+bool SampleRepository::AdjustStock(const std::string& id, int delta, std::string& errorMessage) {
+    std::vector<Sample> samples = Load();
+    auto it = std::find_if(samples.begin(), samples.end(),
+                            [&](const Sample& s) { return s.id == id; });
+    if (it == samples.end()) {
+        errorMessage = "존재하지 않는 시료ID입니다: " + id;
+        return false;
+    }
+    if (it->stock + delta < 0) {
+        errorMessage = "재고가 부족합니다: " + id;
+        return false;
+    }
+    it->stock += delta;
+    Save(samples);
+    return true;
 }
 
 }

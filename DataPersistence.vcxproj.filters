@@ -13,12 +13,14 @@
     <ClCompile Include="src\Order.cpp"><Filter>소스 파일</Filter></ClCompile>
     <ClCompile Include="src\SampleRepository.cpp"><Filter>소스 파일</Filter></ClCompile>
     <ClCompile Include="src\OrderRepository.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="src\OrderWorkflow.cpp"><Filter>소스 파일</Filter></ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\DataPersistence\Sample.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="include\DataPersistence\Order.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="include\DataPersistence\SampleRepository.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="include\DataPersistence\OrderRepository.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="include\DataPersistence\OrderWorkflow.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="include\third_party\nlohmann\json.hpp"><Filter>헤더 파일</Filter></ClInclude>
   </ItemGroup>
 </Project>
